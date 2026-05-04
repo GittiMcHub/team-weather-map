@@ -1,0 +1,84 @@
+.map-tile {
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 7px 10px 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.18), 0 1px 3px rgba(0,0,0,0.1);
+  border: 1px solid rgba(0,0,0,0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 150px;
+  box-sizing: border-box;
+  font-family: 'DM Sans', sans-serif;
+  user-select: none;
+  pointer-events: none;
+}
+
+.map-tile-header {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  min-width: 0;
+}
+
+.map-tile-flag {
+  font-size: 14px;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.map-tile-city {
+  font-size: 12px;
+  font-weight: 700;
+  color: #111827;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.map-tile-weather {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.map-tile-icon {
+  font-size: 20px;
+  line-height: 1;
+}
+
+.map-tile-temp {
+  font-size: 15px;
+  font-weight: 700;
+  color: #111827;
+  font-family: 'DM Mono', monospace;
+}
+
+.map-tile-avatars {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  margin-top: 1px;
+}
+
+.weather-marker-avatar {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1.5px solid #fff;
+  font-size: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 600;
+  overflow: hidden;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+  flex-shrink: 0;
+}
+
+.weather-marker-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
