@@ -200,7 +200,10 @@ export function MapView({ cities, countries, members, weather, visible }: MapVie
     };
   }, []);
 
-  // Invalidate size + redraw when tab becomes visible
+  // Invalidate size + redraw when tab becomes visible.
+  // fitBounds must run here too: the data effect may have called fitBounds while the
+  // container was display:none (0×0 px), producing a wrong zoom. invalidateSize() gives
+  // Leaflet the real dimensions; the subsequent fitBounds then sets the correct zoom.
   useEffect(() => {
     if (!visible) return;
     const id = setTimeout(() => {
@@ -208,7 +211,10 @@ export function MapView({ cities, countries, members, weather, visible }: MapVie
       if (!map) return;
       map.invalidateSize();
       const { cities, countries, members, weather } = dataRef.current;
-      buildMapMarkers(map, layersRef, cities, countries, members, weather);
+      const bounds = buildMapMarkers(map, layersRef, cities, countries, members, weather);
+      if (bounds) {
+        map.fitBounds(bounds, { padding: [60, 60], maxZoom: 8 });
+      }
     }, 50);
     return () => clearTimeout(id);
   }, [visible]);
