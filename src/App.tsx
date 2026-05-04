@@ -93,7 +93,7 @@ export default function App() {
     display: 'grid',
     gridTemplateColumns: `repeat(${cols}, 1fr)`,
     gap: 12,
-    padding: '1%',
+    padding: '5%',
     flex: 1,
     alignContent: 'start',
   };
@@ -136,7 +136,7 @@ export default function App() {
         </div>
 
         {/* Map — rendered as a single tile card so the page footer stays visible */}
-        <div style={{ display: view === 'map' ? 'flex' : 'none', flex: 1, minHeight: 0, padding: '5%' }}>
+        <div style={{ display: view === 'map' ? 'flex' : 'none', flex: 1, minHeight: 0, padding: '1%' }}>
           <div style={{ flex: 1, borderRadius: 12, overflow: 'hidden', boxShadow: '0 1px 4px rgba(0,0,0,0.06)', background: '#fff' }}>
             <MapView
               cities={cities}
