@@ -93,57 +93,78 @@ export default function App() {
     display: 'grid',
     gridTemplateColumns: `repeat(${cols}, 1fr)`,
     gap: 12,
-    padding: '5%',
+    padding: '1%',
     flex: 1,
     alignContent: 'start',
   };
 
   return (
     <>
-      <div style={{paddingTop: '2%', paddingLeft: '2%'}}>
-        <h1>Team Weather</h1>
-        <p style={{ color: "grey" }}>{ new Date().toDateString() }</p>
-      </div>
-      <Header view={view} onViewChange={setView} onManage={() => setShowConfig(true)} onRefresh={handleRefresh} />
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minHeight: 0 }}>
+        <div style={{ paddingTop: '2%', paddingLeft: '2%' }}>
+          <h1>Team Weather</h1>
+          <p style={{ color: 'grey' }}>{new Date().toDateString()}</p>
+        </div>
+        <Header view={view} onViewChange={setView} onManage={() => setShowConfig(true)} onRefresh={handleRefresh} />
 
-      {/* Today */}
-      <div style={{ ...gridStyle, display: view === 'today' ? 'grid' : 'none' }}>
-        {cities.map(city => (
-          <CityTile
-            key={city.id}
-            city={city}
-            flag={getFlag(city)}
-            weather={weather[city.id]}
-            members={getCityMembers(city.id)}
-            cityPosition={colConfig.cityPosition}
-          />
-        ))}
+        {/* Today */}
+        <div style={{ ...gridStyle, display: view === 'today' ? 'grid' : 'none' }}>
+          {cities.map(city => (
+            <CityTile
+              key={city.id}
+              city={city}
+              flag={getFlag(city)}
+              weather={weather[city.id]}
+              members={getCityMembers(city.id)}
+              cityPosition={colConfig.cityPosition}
+            />
+          ))}
+        </div>
+
+        {/* Weekend */}
+        <div style={{ ...gridStyle, display: view === 'weekend' ? 'grid' : 'none' }}>
+          {cities.map(city => (
+            <WeekendTile
+              key={city.id}
+              city={city}
+              flag={getFlag(city)}
+              weekend={weekend[city.id]}
+              members={getCityMembers(city.id)}
+              cityPosition={colConfig.cityPosition}
+            />
+          ))}
+        </div>
+
+        {/* Map — rendered as a single tile card so the page footer stays visible */}
+        <div style={{ display: view === 'map' ? 'flex' : 'none', flex: 1, minHeight: 0, padding: '5%' }}>
+          <div style={{ flex: 1, borderRadius: 12, overflow: 'hidden', boxShadow: '0 1px 4px rgba(0,0,0,0.06)', background: '#fff' }}>
+            <MapView
+              cities={cities}
+              countries={countries}
+              members={members}
+              weather={weather}
+              visible={view === 'map'}
+            />
+          </div>
+        </div>
       </div>
 
-      {/* Weekend */}
-      <div style={{ ...gridStyle, display: view === 'weekend' ? 'grid' : 'none' }}>
-        {cities.map(city => (
-          <WeekendTile
-            key={city.id}
-            city={city}
-            flag={getFlag(city)}
-            weekend={weekend[city.id]}
-            members={getCityMembers(city.id)}
-            cityPosition={colConfig.cityPosition}
-          />
-        ))}
-      </div>
-
-      {/* Map */}
-      <div style={{ display: view === 'map' ? 'flex' : 'none', flex: 1, minHeight: 0 }}>
-        <MapView
-          cities={cities}
-          countries={countries}
-          members={members}
-          weather={weather}
-          visible={view === 'map'}
-        />
-      </div>
+      <footer style={{
+        flexShrink: 0,
+        borderTop: '1px solid #ebe8e3',
+        padding: '6px 20px',
+        fontSize: 11,
+        color: '#aaa',
+        display: 'flex',
+        gap: 16,
+        flexWrap: 'wrap',
+      }}>
+        <span>Weather: <a href="https://open-meteo.com" target="_blank" rel="noopener noreferrer" style={{ color: '#aaa' }}>Open-Meteo</a></span>
+        <span>Geocoding: <a href="https://nominatim.openstreetmap.org" target="_blank" rel="noopener noreferrer" style={{ color: '#aaa' }}>Nominatim</a> · <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer" style={{ color: '#aaa' }}>© OpenStreetMap contributors</a></span>
+        <span>Map tiles: <a href="https://carto.com/attributions" target="_blank" rel="noopener noreferrer" style={{ color: '#aaa' }}>© CARTO</a></span>
+        <span>Map: <a href="https://leafletjs.com" target="_blank" rel="noopener noreferrer" style={{ color: '#aaa' }}>Leaflet</a></span>
+        <span>UI: <a href="https://react.dev" target="_blank" rel="noopener noreferrer" style={{ color: '#aaa' }}>React</a></span>
+      </footer>
 
       {showConfig && (
         <ConfigModal

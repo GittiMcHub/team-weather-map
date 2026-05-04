@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react';
 import { CityTile } from './CityTile';
 import type { City, TeamMember, WeatherData } from '../../types';
 
-const city: City = { id: 'berlin', name: 'Berlin', country: 'de', lat: 52.52, lon: 13.405 };
+const city: City = { id: 'berlin', name: 'Berlin', countryId: 'de', lat: 52.52, lon: 13.405 };
 const weather: WeatherData = { temp: 12, code: 0 };
 const member: TeamMember = { id: 'm1', name: 'Alice', photo: '', cityId: 'berlin', colorIdx: 0 };
 

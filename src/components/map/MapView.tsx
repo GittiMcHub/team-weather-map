@@ -228,7 +228,7 @@ export function MapView({ cities, countries, members, weather, visible }: MapVie
   return (
     <div
       ref={containerRef}
-      style={{ flex: 1, minHeight: 0 }}
+      style={{ width: '100%', height: '100%' }}
       data-testid="map-container"
     />
   );
