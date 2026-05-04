@@ -31,8 +31,8 @@ describe('weatherInfo', () => {
   });
 });
 
-const day = (code: number, temp: number): WeekendDayData => ({
-  code, temp, tempMin: temp - 5, date: '2026-01-01',
+const day = (code: number, temp: number, tempMin = temp - 5): WeekendDayData => ({
+  code, temp, tempMin, date: '2026-01-01',
 });
 
 describe('weekendVibe', () => {
@@ -59,5 +59,29 @@ describe('weekendVibe', () => {
   it('works with only Sunday', () => {
     const result = weekendVibe(null, day(0, 25));
     expect(result.text).not.toBe('No data');
+  });
+
+  // Regression: showers (80) + rain (63) averaged to 71 (snow bucket) before fix
+  it('does not return Snowy for showers+rain at tropical temps', () => {
+    const result = weekendVibe(day(80, 36), day(63, 34));
+    expect(result.text).not.toBe('Snowy');
+  });
+
+  // Regression: thunderstorm (95) + rain (63) must not land in snow bucket
+  it('does not return Snowy for thunderstorm+rain at high temps', () => {
+    const result = weekendVibe(day(95, 36), day(63, 34));
+    expect(result.text).not.toBe('Snowy');
+  });
+
+  it('returns Snowy for actual snow codes at cold temps (Ladakh-like)', () => {
+    expect(weekendVibe(day(71, 2, -10), day(73, 2, -10)).text).toBe('Snowy');
+  });
+
+  it('returns Stormy for two thunderstorm days', () => {
+    expect(weekendVibe(day(95, 28), day(99, 26)).text).toBe('Stormy');
+  });
+
+  it('returns Showery for mixed showers weekend', () => {
+    expect(weekendVibe(day(80, 18), day(82, 17)).text).toBe('Showery');
   });
 });

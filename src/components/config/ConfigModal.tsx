@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import type { TeamMember, Country, City, ColConfig, ConfigSavePayload } from '../../types';
 import { exportConfig, importConfig } from '../../utils/configIO';
+import { DEFAULT_COUNTRIES, DEFAULT_CITIES, DEFAULT_COL_CONFIG } from '../../constants';
 import { TabTeam } from './TabTeam';
 import { TabPlaces } from './TabPlaces';
 import { TabLayout } from './TabLayout';
@@ -23,6 +24,7 @@ export function ConfigModal({ members, countries, cities, colConfig, onSave, onC
   const [localCities, setLocalCities] = useState(cities);
   const [localCols, setLocalCols] = useState(colConfig);
   const [importError, setImportError] = useState<string | null>(null);
+  const [showResetConfirm, setShowResetConfirm] = useState(false);
 
   const handleSave = () => {
     const validCities = localCities.map(c => ({
@@ -42,6 +44,15 @@ export function ConfigModal({ members, countries, cities, colConfig, onSave, onC
       lon: parseFloat(String(c.lon)),
     })).filter(c => !isNaN(c.lat) && !isNaN(c.lon));
     exportConfig({ members: localMembers, countries: localCountries, cities: validCities, colConfig: localCols });
+  };
+
+  const handleReset = () => {
+    setLocalMembers([]);
+    setLocalCountries(DEFAULT_COUNTRIES);
+    setLocalCities(DEFAULT_CITIES);
+    setLocalCols(DEFAULT_COL_CONFIG);
+    setImportError(null);
+    setShowResetConfirm(false);
   };
 
   const handleImportFile = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -122,6 +133,12 @@ export function ConfigModal({ members, countries, cities, colConfig, onSave, onC
                 Import JSON
                 <input type="file" accept=".json" onChange={handleImportFile} style={{ display: 'none' }} aria-label="Import JSON file" />
               </label>
+              <button
+                onClick={() => setShowResetConfirm(true)}
+                style={{ padding: '8px 14px', borderRadius: 10, border: '1px solid #e57373', fontSize: 13, color: '#e57373' }}
+              >
+                Reset
+              </button>
             </div>
             {importError && <span role="alert" style={{ fontSize: 12, color: '#e57373' }}>{importError}</span>}
           </div>
@@ -131,6 +148,34 @@ export function ConfigModal({ members, countries, cities, colConfig, onSave, onC
           </div>
         </div>
       </div>
+
+      {showResetConfirm && (
+        <div
+          style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1200, padding: 16 }}
+          onClick={e => e.target === e.currentTarget && setShowResetConfirm(false)}
+        >
+          <div style={{ background: '#fff', borderRadius: 16, width: '100%', maxWidth: 380, padding: 24, boxShadow: '0 8px 40px rgba(0,0,0,0.22)', display: 'flex', flexDirection: 'column', gap: 16 }}>
+            <div style={{ fontSize: 15, fontWeight: 700 }}>Reset to defaults?</div>
+            <div style={{ fontSize: 13, color: '#555', lineHeight: 1.5 }}>
+              This will permanently delete all your team members, countries, cities, and layout settings and replace them with the default data. This cannot be undone.
+            </div>
+            <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end' }}>
+              <button
+                onClick={() => setShowResetConfirm(false)}
+                style={{ padding: '8px 18px', borderRadius: 10, border: '1px solid #ddd', fontSize: 13, color: '#555' }}
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleReset}
+                style={{ padding: '8px 18px', borderRadius: 10, background: '#e57373', color: '#fff', fontSize: 13, fontWeight: 600 }}
+              >
+                Reset
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

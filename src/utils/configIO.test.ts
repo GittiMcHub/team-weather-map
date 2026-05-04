@@ -5,7 +5,7 @@ import type { ConfigSavePayload } from '../types';
 const validPayload: ConfigSavePayload = {
   members: [{ id: 'm1', name: 'Alice', photo: '', cityId: 'berlin', colorIdx: 0 }],
   countries: [{ id: 'de', name: 'Germany', flag: '🇩🇪' }],
-  cities: [{ id: 'berlin', name: 'Berlin', country: 'de', lat: 52.52, lon: 13.405 }],
+  cities: [{ id: 'berlin', name: 'Berlin', countryId: 'de', lat: 52.52, lon: 13.405 }],
   colConfig: { xs: 1, sm: 2, md: 3, lg: 4, cityPosition: 'bottom' },
 };
 
@@ -50,7 +50,7 @@ describe('importConfig', () => {
   });
 
   it('throws when a city is missing lat', () => {
-    const bad = { ...validPayload, cities: [{ id: 'berlin', name: 'Berlin', country: 'de', lon: 13.405 }] };
+    const bad = { ...validPayload, cities: [{ id: 'berlin', name: 'Berlin', countryId: 'de', lon: 13.405 }] };
     expect(() => importConfig(JSON.stringify(bad))).toThrow(/cities\[0\]\.lat must be a number or string/);
   });
 

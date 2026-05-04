@@ -23,7 +23,7 @@ const baseProps = {
 const importedPayload: ConfigSavePayload = {
   members: [{ id: 'x1', name: 'Bob', photo: '', cityId: 'london', colorIdx: 1 }],
   countries: [{ id: 'gb', name: 'United Kingdom', flag: '🇬🇧' }],
-  cities: [{ id: 'london', name: 'London', country: 'gb', lat: 51.5074, lon: -0.1278 }],
+  cities: [{ id: 'london', name: 'London', countryId: 'gb', lat: 51.5074, lon: -0.1278 }],
   colConfig: { xs: 2, sm: 3, md: 4, lg: 6, cityPosition: 'top' },
 };
 

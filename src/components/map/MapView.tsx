@@ -77,7 +77,7 @@ function buildMapMarkers(
     const lon = parseFloat(String(city.lon));
     if (isNaN(lat) || isNaN(lon)) continue;
     const w = weather[city.id];
-    const country = countries.find(c => c.id === city.country);
+    const country = countries.find(c => c.id === city.countryId);
     entries.push({
       lat, lon,
       flag: country?.flag ?? '',

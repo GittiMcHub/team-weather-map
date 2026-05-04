@@ -39,7 +39,7 @@ function validateCity(val: unknown, i: number): City {
   assertObject(val, `cities[${i}]`);
   assertString(val.id, `cities[${i}].id`);
   assertString(val.name, `cities[${i}].name`);
-  assertString(val.country, `cities[${i}].country`);
+  assertString(val.countryId, `cities[${i}].countryId`);
   if (typeof val.lat !== 'number' && typeof val.lat !== 'string')
     throw new Error(`Invalid config: cities[${i}].lat must be a number or string`);
   if (typeof val.lon !== 'number' && typeof val.lon !== 'string')

@@ -40,9 +40,9 @@ export const DEFAULT_COUNTRIES: Country[] = [
 ];
 
 export const DEFAULT_CITIES: City[] = [
-  { id: 'berlin',    name: 'Berlin',    country: 'de', lat: 52.52,   lon: 13.405  },
-  { id: 'newyork',  name: 'New York',  country: 'us', lat: 40.7128, lon: -74.006 },
-  { id: 'london',   name: 'London',    country: 'gb', lat: 51.5074, lon: -0.1278 },
-  { id: 'paris',    name: 'Paris',     country: 'fr', lat: 48.8566, lon: 2.3522  },
-  { id: 'tokyo',    name: 'Tokyo',     country: 'jp', lat: 35.6762, lon: 139.6503},
+  { id: 'berlin',    name: 'Berlin',    countryId: 'de', lat: 52.52,   lon: 13.405  },
+  { id: 'newyork',  name: 'New York',  countryId: 'us', lat: 40.7128, lon: -74.006 },
+  { id: 'london',   name: 'London',    countryId: 'gb', lat: 51.5074, lon: -0.1278 },
+  { id: 'paris',    name: 'Paris',     countryId: 'fr', lat: 48.8566, lon: 2.3522  },
+  { id: 'tokyo',    name: 'Tokyo',     countryId: 'jp', lat: 35.6762, lon: 139.6503},
 ];

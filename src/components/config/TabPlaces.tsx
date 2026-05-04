@@ -29,7 +29,7 @@ export function TabPlaces({ countries, cities, onChangeCountries, onChangeCities
   const [lookupLoading, setLookupLoading] = useState(false);
   const [lookupError, setLookupError] = useState<string | null>(null);
 
-  const citiesForCountry = cities.filter(c => c.country === selCountryId);
+  const citiesForCountry = cities.filter(c => c.countryId === selCountryId);
   const selCountry = countries.find(c => c.id === selCountryId) ?? null;
   const selCity = cities.find(c => c.id === selCityId) ?? null;
 
@@ -92,7 +92,7 @@ export function TabPlaces({ countries, cities, onChangeCountries, onChangeCities
   };
 
   const addCity = () => {
-    const c: City = { id: uid(), name: 'New city', country: selCountryId, lat: '', lon: '' };
+    const c: City = { id: uid(), name: 'New city', countryId: selCountryId, lat: '', lon: '' };
     onChangeCities([...cities, c]);
     setSelCityId(c.id);
   };
@@ -111,7 +111,7 @@ export function TabPlaces({ countries, cities, onChangeCountries, onChangeCities
 
   const removeCountry = (id: string) => {
     onChangeCountries(countries.filter(c => c.id !== id));
-    onChangeCities(cities.filter(c => c.country !== id));
+    onChangeCities(cities.filter(c => c.countryId !== id));
     const next = countries.find(c => c.id !== id);
     setSelCountryId(next?.id ?? '');
     setSelCityId(null);
@@ -277,7 +277,7 @@ export function TabPlaces({ countries, cities, onChangeCountries, onChangeCities
 
       {showFlagPicker && selCountry && (
         <FlagPicker
-          onSelect={flag => updateCountry(selCountry.id, { flag })}
+          onSelect={(flag, name) => updateCountry(selCountry.id, { flag, name })}
           onClose={() => setShowFlagPicker(false)}
         />
       )}

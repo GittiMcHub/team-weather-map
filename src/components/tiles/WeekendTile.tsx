@@ -17,9 +17,9 @@ export function WeekendTile({ city, flag, weekend, members, cityPosition }: Week
   // City name left, vibe text right — always on the same row
   const nameEl = (
     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-      <span style={{ fontSize: 13, fontWeight: 700, color: '#333' }}>{city.name}</span>
+      <span style={{ fontSize: 14, fontWeight: 700, color: '#111' }}>{city.name}</span>
       {vibe && (
-        <span style={{ fontSize: 12, color: '#888' }}>{vibe.emoji} {vibe.text}</span>
+        <span style={{ fontSize: 14, fontWeight: 700, color: '#111' }}>{vibe.emoji} {vibe.text}</span>
       )}
     </div>
   );

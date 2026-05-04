@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 interface FlagPickerProps {
-  onSelect: (flag: string) => void;
+  onSelect: (flag: string, name: string) => void;
   onClose: () => void;
 }
 
@@ -83,7 +83,7 @@ export function FlagPicker({ onSelect, onClose }: FlagPickerProps) {
             <button
               key={flag}
               title={name}
-              onClick={() => { onSelect(flag); onClose(); }}
+              onClick={() => { onSelect(flag, name); onClose(); }}
               style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '6px 4px', borderRadius: 8, fontSize: 22, lineHeight: 1, gap: 2 }}
             >
               {flag}

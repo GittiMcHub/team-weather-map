@@ -84,8 +84,8 @@ export default function App() {
     setWeekend(prev => Object.fromEntries(Object.entries(prev).filter(([id]) => cityIds.has(id))));
   };
 
-  const getFlag = (city: { country: string }) =>
-    countries.find(c => c.id === city.country)?.flag ?? '';
+  const getFlag = (city: { countryId: string }) =>
+    countries.find(c => c.id === city.countryId)?.flag ?? '';
 
   const getCityMembers = (cityId: string) => members.filter(m => m.cityId === cityId);
 

@@ -7,7 +7,7 @@ export interface Country {
 export interface City {
   id: string;
   name: string;
-  country: string;
+  countryId: string;
   lat: number | string;
   lon: number | string;
 }
