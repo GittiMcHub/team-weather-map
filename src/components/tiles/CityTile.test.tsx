@@ -9,33 +9,33 @@ const member: TeamMember = { id: 'm1', name: 'Alice', photo: '', cityId: 'berlin
 
 describe('CityTile', () => {
   it('shows loading bar when weather is undefined', () => {
-    render(<CityTile city={city} flag="🇩🇪" weather={undefined} members={[]} cityPosition="bottom" />);
+    render(<CityTile city={city} flag="🇩🇪" weather={undefined} members={[]} cityPosition="bottom" animationsEnabled={true} />);
     expect(screen.getByTestId('loading-bar')).toBeInTheDocument();
   });
 
   it('shows unavailable message when weather is null', () => {
-    render(<CityTile city={city} flag="🇩🇪" weather={null} members={[]} cityPosition="bottom" />);
+    render(<CityTile city={city} flag="🇩🇪" weather={null} members={[]} cityPosition="bottom" animationsEnabled={true} />);
     expect(screen.getByText('Unavailable')).toBeInTheDocument();
   });
 
   it('shows temperature when weather is available', () => {
-    render(<CityTile city={city} flag="🇩🇪" weather={weather} members={[]} cityPosition="bottom" />);
+    render(<CityTile city={city} flag="🇩🇪" weather={weather} members={[]} cityPosition="bottom" animationsEnabled={true} />);
     expect(screen.getByText('12°')).toBeInTheDocument();
   });
 
   it('shows city name and flag', () => {
-    render(<CityTile city={city} flag="🇩🇪" weather={weather} members={[]} cityPosition="bottom" />);
+    render(<CityTile city={city} flag="🇩🇪" weather={weather} members={[]} cityPosition="bottom" animationsEnabled={true} />);
     expect(screen.getByText('Berlin')).toBeInTheDocument();
     expect(screen.getByText('🇩🇪')).toBeInTheDocument();
   });
 
   it('shows no-members message when members list is empty', () => {
-    render(<CityTile city={city} flag="🇩🇪" weather={weather} members={[]} cityPosition="bottom" />);
+    render(<CityTile city={city} flag="🇩🇪" weather={weather} members={[]} cityPosition="bottom" animationsEnabled={true} />);
     expect(screen.getByText('No members')).toBeInTheDocument();
   });
 
   it('renders member avatars when members are present', () => {
-    render(<CityTile city={city} flag="🇩🇪" weather={weather} members={[member]} cityPosition="bottom" />);
+    render(<CityTile city={city} flag="🇩🇪" weather={weather} members={[member]} cityPosition="bottom" animationsEnabled={true} />);
     expect(screen.getByLabelText('Alice')).toBeInTheDocument();
   });
 });

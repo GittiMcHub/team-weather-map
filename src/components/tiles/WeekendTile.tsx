@@ -1,5 +1,5 @@
 import type { City, TeamMember, WeekendData } from '../../types';
-import { weekendVibe } from '../../utils/weather';
+import { weekendVibe, weatherAnimationClass, weekendAnimationCode } from '../../utils/weather';
 import { Avatar } from '../ui/Avatar';
 import { DayCol } from './DayCol';
 
@@ -9,10 +9,12 @@ interface WeekendTileProps {
   weekend: WeekendData | null | undefined;
   members: TeamMember[];
   cityPosition: 'top' | 'bottom';
+  animationsEnabled: boolean;
 }
 
-export function WeekendTile({ city, flag, weekend, members, cityPosition }: WeekendTileProps) {
+export function WeekendTile({ city, flag, weekend, members, cityPosition, animationsEnabled }: WeekendTileProps) {
   const vibe = weekend ? weekendVibe(weekend.sat, weekend.sun) : null;
+  const animCode = weekend ? weekendAnimationCode(weekend.sat ?? null, weekend.sun ?? null) : null;
 
   // City name left, vibe text right — always on the same row
   const nameEl = (
@@ -26,6 +28,7 @@ export function WeekendTile({ city, flag, weekend, members, cityPosition }: Week
 
   return (
     <div
+      className={animationsEnabled ? weatherAnimationClass(animCode) : undefined}
       style={{
         background: '#fff',
         borderRadius: 12,

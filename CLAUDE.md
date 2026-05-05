@@ -58,7 +58,7 @@ src/
 │   ├── useLocalStorage.ts  # Typed useState-compatible localStorage hook
 │   └── useWindowWidth.ts   # Responsive width hook
 ├── utils/
-│   ├── weather.ts          # weatherInfo(code), weekendVibe(sat, sun)
+│   ├── weather.ts          # weatherInfo(code), weekendVibe(sat, sun), weatherAnimationClass(code), weekendAnimationCode(sat, sun)
 │   ├── grid.ts             # getCols(width, cfg)
 │   ├── avatar.ts           # uid(), initials(name)
 │   └── configIO.ts         # exportConfig(payload), importConfig(json) — JSON file download/upload
@@ -68,7 +68,7 @@ src/
 │   ├── map/MapView.tsx     # Leaflet map — uses refs, excluded from coverage
 │   ├── config/             # ConfigModal, TabTeam, TabPlaces, TabLayout, PhotoCropper, FlagPicker
 │   └── layout/Header.tsx   # Tab switcher + Manage button (stateless)
-├── styles/                 # global.css, fonts.css, leaflet-marker.css
+├── styles/                 # global.css, fonts.css, leaflet-marker.css, weather-animations.css
 ├── App.tsx                 # Root: all localStorage state, fetch effects, wiring
 ├── main.tsx
 └── test/setup.ts           # @testing-library/jest-dom import
@@ -86,6 +86,10 @@ src/
 - **Map markers use `escapeHtml()` before `L.divIcon` interpolation** — `L.divIcon` sets innerHTML directly; React JSX escaping does not apply. City names, flags, member names all escaped.
 - **`buildMapMarkers` updates `layersRef.current` before calling `fitBounds`** — Leaflet can fire `zoomend` synchronously inside `fitBounds`; updating the ref first prevents duplicate markers from stale reads in the event handler.
 - **Map tile positions computed in pixel space then converted to lat/lon** — overlap separation runs as a force-iteration loop in screen coordinates; tile positions are recalculated on every `zoomend`.
+- **Weather animations use CSS `!important` to override inline tile backgrounds** — tile root divs carry `background: '#fff'` as an inline style; `wx-*` animation classes in `weather-animations.css` use `!important` on background rules to override it. Scope is limited to the five named classes. See ADR-010.
+- **`wx-stormy` uses `filter: brightness()` not a `::before` overlay** — avoids z-index conflicts with tile content; `filter` runs as a composited GPU layer. See ADR-010.
+- **`weatherAnimations` stored in `ColConfig`** — reuses existing config persist/export/import pipeline; no separate localStorage key needed.
+- **`dataRef` in MapView includes `animationsEnabled`** — the Leaflet `zoomend` handler is registered once at map init; `dataRef.current` ensures it always reads the current prop value without stale-closure capture.
 
 ### localStorage Keys
 
@@ -134,6 +138,18 @@ Keep all `/docs` stubs current:
 - `docs/glossary.md` — technical and domain terms
 - `docs/third-party-inventory.md` — all dependencies with license and risk
 - `docs/security.md` — threat model, compliance, pending TODOs
+
+---
+
+## Pre-Commit Checklist
+
+ALWAYS check if documentation is up-to-date and run this full pipeline before claiming a feature is ready to commit:
+
+```bash
+pnpm run type-check && pnpm run lint && pnpm run test && pnpm run build
+```
+
+All four must pass. `pnpm run build` runs `tsc -b` (stricter than `tsc --noEmit`) and catches errors in test files that `type-check` alone misses.
 
 ---
 

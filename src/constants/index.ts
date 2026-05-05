@@ -29,6 +29,7 @@ export const DEFAULT_COL_CONFIG: ColConfig = {
   md: 3,
   lg: 4,
   cityPosition: 'bottom',
+  weatherAnimations: true,
 };
 
 export const DEFAULT_COUNTRIES: Country[] = [

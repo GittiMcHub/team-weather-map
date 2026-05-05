@@ -51,3 +51,23 @@ export function weekendVibe(
   if (maxSeverity <= 5)                   return { emoji: '🌦️', text: 'Showery' };
   return { emoji: '⛈️', text: 'Stormy' };
 }
+
+export function weatherAnimationClass(code: number | null | undefined): string {
+  if (code == null) return '';
+  if (code <= 3)  return 'wx-sunny';
+  if (code <= 48) return 'wx-cloudy';
+  if (code <= 67) return 'wx-rainy';
+  if (code <= 77) return 'wx-snowy';
+  if (code <= 82) return 'wx-rainy';
+  return 'wx-stormy';
+}
+
+export function weekendAnimationCode(
+  sat: WeekendDayData | null | undefined,
+  sun: WeekendDayData | null | undefined,
+): number | null {
+  const satSev = sat?.code != null ? codeSeverity(sat.code) : -1;
+  const sunSev = sun?.code != null ? codeSeverity(sun.code) : -1;
+  if (satSev === -1 && sunSev === -1) return null;
+  return satSev >= sunSev ? sat!.code : sun!.code;
+}

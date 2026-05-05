@@ -15,7 +15,7 @@
 | `WeatherData` | `temp: number, code: number` | Ephemeral — refetched on load; cached in `twm-weather-cache` by date |
 | `WeekendData` | `sat?: WeekendDayData, sun?: WeekendDayData` | Ephemeral; cached in `twm-weekend-cache` by date |
 | `WeekendDayData` | `temp, tempMin, code, date` | One day's data |
-| `ColConfig` | `xs, sm, md, lg: number; cityPosition` | Layout preferences |
+| `ColConfig` | `xs, sm, md, lg: number; cityPosition; weatherAnimations: boolean` | Layout preferences + animation toggle |
 
 ## Associations
 

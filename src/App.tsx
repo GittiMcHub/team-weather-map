@@ -117,6 +117,7 @@ export default function App() {
               weather={weather[city.id]}
               members={getCityMembers(city.id)}
               cityPosition={colConfig.cityPosition}
+              animationsEnabled={colConfig.weatherAnimations ?? true}
             />
           ))}
         </div>
@@ -131,6 +132,7 @@ export default function App() {
               weekend={weekend[city.id]}
               members={getCityMembers(city.id)}
               cityPosition={colConfig.cityPosition}
+              animationsEnabled={colConfig.weatherAnimations ?? true}
             />
           ))}
         </div>
@@ -144,6 +146,7 @@ export default function App() {
               members={members}
               weather={weather}
               visible={view === 'map'}
+              animationsEnabled={colConfig.weatherAnimations ?? true}
             />
           </div>
         </div>

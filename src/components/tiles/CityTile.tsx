@@ -1,5 +1,5 @@
 import type { City, TeamMember, WeatherData } from '../../types';
-import { weatherInfo } from '../../utils/weather';
+import { weatherInfo, weatherAnimationClass } from '../../utils/weather';
 import { Avatar } from '../ui/Avatar';
 import { LoadingBar } from '../ui/LoadingBar';
 
@@ -9,9 +9,10 @@ interface CityTileProps {
   weather: WeatherData | null | undefined;
   members: TeamMember[];
   cityPosition: 'top' | 'bottom';
+  animationsEnabled: boolean;
 }
 
-export function CityTile({ city, flag, weather, members, cityPosition }: CityTileProps) {
+export function CityTile({ city, flag, weather, members, cityPosition, animationsEnabled }: CityTileProps) {
   const info = weather ? weatherInfo(weather.code) : null;
 
   const nameEl = (
@@ -30,6 +31,7 @@ export function CityTile({ city, flag, weather, members, cityPosition }: CityTil
 
   return (
     <div
+      className={animationsEnabled ? weatherAnimationClass(weather?.code) : undefined}
       style={{
         background: '#fff',
         borderRadius: 12,

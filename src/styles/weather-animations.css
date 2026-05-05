@@ -1,0 +1,97 @@
+/* ── wx-sunny ── warm golden shimmer (unchanged) ── */
+@keyframes wx-sunny-pulse {
+  0%   { background-position: 0 0; }
+  100% { background-position: 100% 100%; }
+}
+.wx-sunny {
+  background: linear-gradient(135deg, #ffffff 0%, #fffde7 30%, #fff9c4 50%, #fffde7 70%, #ffffff 100%) !important;
+  background-size: 300% 300% !important;
+  animation: wx-sunny-pulse 6s ease-in-out infinite alternate;
+}
+
+/* ── wx-cloudy ── cloud shape drifting right-to-left ── */
+@keyframes wx-cloud-move {
+  0%   { transform: translateX(450px); }
+  100% { transform: translateX(-180px); }
+}
+.wx-cloudy {
+  position: relative;
+  overflow: hidden;
+  background: #eef1f5 !important;
+}
+.wx-cloudy::before {
+  content: '';
+  position: absolute;
+  pointer-events: none;
+  width: 80px;
+  height: 40px;
+  border-radius: 40px;
+  top: 28%;
+  left: 0;
+  background: rgba(185, 200, 218, 0.55);
+  box-shadow:
+    22px -14px 0 6px rgba(185, 200, 218, 0.5),
+    -22px -6px 0 10px rgba(185, 200, 218, 0.45),
+    2px -24px 0 4px rgba(185, 200, 218, 0.4);
+  animation: wx-cloud-move 14s linear infinite;
+  will-change: transform;
+}
+
+/* ── wx-rainy ── elongated drops falling top-to-bottom ── */
+@keyframes wx-rainy-fall {
+  0%   { background-position: 0 0, 22px 27px, 42px 53px; }
+  100% { background-position: 0 80px, 22px 107px, 42px 133px; }
+}
+.wx-rainy {
+  background-color: #f2f6fb !important;
+  background-image:
+    radial-gradient(ellipse 2px 8px at 50% 50%, rgba(80, 130, 200, 0.5) 0%, transparent 100%),
+    radial-gradient(ellipse 1.5px 6px at 50% 50%, rgba(80, 130, 200, 0.38) 0%, transparent 100%),
+    radial-gradient(ellipse 2px 7px at 50% 50%, rgba(80, 130, 200, 0.44) 0%, transparent 100%) !important;
+  background-size: 50px 80px !important;
+  animation: wx-rainy-fall 1.6s linear infinite;
+  will-change: background-position;
+}
+
+/* ── wx-snowy ── soft flakes drifting down with gentle sway ── */
+@keyframes wx-snowy-fall {
+  0%   { background-position: 0 0, 25px 27px, 48px 53px; }
+  100% { background-position: 0 80px, 25px 107px, 48px 133px; }
+}
+.wx-snowy {
+  background-color: #eef4fb !important;
+  background-image:
+    radial-gradient(circle 3px at 50% 50%, rgba(155, 195, 230, 0.8) 0%, rgba(155, 195, 230, 0.2) 70%, transparent 100%),
+    radial-gradient(circle 2px at 50% 50%, rgba(155, 195, 230, 0.6) 0%, rgba(155, 195, 230, 0.15) 70%, transparent 100%),
+    radial-gradient(circle 2.5px at 50% 50%, rgba(155, 195, 230, 0.7) 0%, rgba(155, 195, 230, 0.18) 70%, transparent 100%) !important;
+  background-size: 70px 80px !important;
+  animation: wx-snowy-fall 4s linear infinite;
+  will-change: background-position;
+}
+
+/* ── wx-stormy ── dark purple base + lightning brightness flash ── */
+@keyframes wx-storm-lightning {
+  0%    { filter: brightness(1); }
+  82%   { filter: brightness(1); }
+  83%   { filter: brightness(2.8); }
+  85%   { filter: brightness(1); }
+  90%   { filter: brightness(1); }
+  91%   { filter: brightness(1.9); }
+  92%   { filter: brightness(1); }
+  100%  { filter: brightness(1); }
+}
+.wx-stormy {
+  background: linear-gradient(160deg, #d8d4e5 0%, #ccc8dc 40%, #c5c1d9 60%, #d2cee2 100%) !important;
+  animation: wx-storm-lightning 5s linear infinite;
+  will-change: filter;
+}
+
+/* ── reduced motion ── tints remain, motion stops ── */
+@media (prefers-reduced-motion: reduce) {
+  .wx-sunny, .wx-cloudy, .wx-rainy, .wx-snowy, .wx-stormy {
+    animation: none !important;
+  }
+  .wx-cloudy::before {
+    display: none;
+  }
+}

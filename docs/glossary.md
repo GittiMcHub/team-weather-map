@@ -19,3 +19,5 @@
 | Weather cache | localStorage entry (`twm-weather-cache`) storing today's current-weather results keyed by city ID; invalidated daily | App domain |
 | Weekend cache | localStorage entry (`twm-weekend-cache`) storing this week's Saturday/Sunday weather results; invalidated daily | App domain |
 | Map tile card | The info card shown per city on the Map view — contains flag, city name, weather icon, temperature, and member avatars; rendered via `L.divIcon` | App domain |
+| Weather animation class | One of `wx-sunny`, `wx-cloudy`, `wx-rainy`, `wx-snowy`, `wx-stormy` — CSS keyframe classes applied to tile root elements based on WMO weather code category; defined in `src/styles/weather-animations.css` | App domain |
+| Animation toggle | `ColConfig.weatherAnimations` boolean — enables/disables `wx-*` classes on all tile surfaces; persisted in localStorage, exported/imported with config | App domain |

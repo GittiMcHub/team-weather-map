@@ -3,7 +3,7 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import '../../styles/leaflet-marker.css';
 import type { City, Country, TeamMember, WeatherMap } from '../../types';
-import { weatherInfo } from '../../utils/weather';
+import { weatherInfo, weatherAnimationClass } from '../../utils/weather';
 import { initials } from '../../utils/avatar';
 import { AVATAR_COLORS as COLORS } from '../../constants';
 
@@ -68,6 +68,7 @@ function buildMapMarkers(
   countries: Country[],
   members: TeamMember[],
   weather: WeatherMap,
+  animationsEnabled: boolean,
 ): L.LatLngBounds | null {
   layersRef.current.forEach(l => l.remove());
 
@@ -127,6 +128,7 @@ function buildMapMarkers(
     }
 
     const info = e.code !== null ? weatherInfo(e.code) : null;
+    const animClass = animationsEnabled ? weatherAnimationClass(e.code) : '';
     const avatarHtml = e.cityMembers.slice(0, 6).map(m => {
       const color = COLORS[m.colorIdx % COLORS.length];
       return m.photo
@@ -134,7 +136,7 @@ function buildMapMarkers(
         : `<div class="weather-marker-avatar" style="background:${color}">${initials(m.name)}</div>`;
     }).join('');
 
-    const tileHtml = `<div class="map-tile">
+    const tileHtml = `<div class="map-tile${animClass ? ' ' + animClass : ''}">
       <div class="map-tile-header">
         <span class="map-tile-flag">${escapeHtml(e.flag)}</span>
         <span class="map-tile-city">${escapeHtml(e.name)}</span>
@@ -169,14 +171,15 @@ interface MapViewProps {
   members: TeamMember[];
   weather: WeatherMap;
   visible: boolean;
+  animationsEnabled: boolean;
 }
 
-export function MapView({ cities, countries, members, weather, visible }: MapViewProps) {
+export function MapView({ cities, countries, members, weather, visible, animationsEnabled }: MapViewProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<L.Map | null>(null);
   const layersRef = useRef<L.Layer[]>([]);
-  const dataRef = useRef({ cities, countries, members, weather });
-  dataRef.current = { cities, countries, members, weather };
+  const dataRef = useRef({ cities, countries, members, weather, animationsEnabled });
+  dataRef.current = { cities, countries, members, weather, animationsEnabled };
 
   // Init map once
   useEffect(() => {
@@ -189,8 +192,8 @@ export function MapView({ cities, countries, members, weather, visible }: MapVie
     mapRef.current = map;
 
     map.on('zoomend', () => {
-      const { cities, countries, members, weather } = dataRef.current;
-      buildMapMarkers(map, layersRef, cities, countries, members, weather);
+      const { cities, countries, members, weather, animationsEnabled: anim } = dataRef.current;
+      buildMapMarkers(map, layersRef, cities, countries, members, weather, anim);
       // no fitBounds — user-triggered zoom, don't reset view
     });
 
@@ -211,13 +214,13 @@ export function MapView({ cities, countries, members, weather, visible }: MapVie
       if (!map) return;
       map.invalidateSize();
       const { cities, countries, members, weather } = dataRef.current;
-      const bounds = buildMapMarkers(map, layersRef, cities, countries, members, weather);
+      const bounds = buildMapMarkers(map, layersRef, cities, countries, members, weather, animationsEnabled);
       if (bounds) {
         map.fitBounds(bounds, { padding: [60, 60], maxZoom: 8 });
       }
     }, 50);
     return () => clearTimeout(id);
-  }, [visible]);
+  }, [visible, animationsEnabled]);
 
   // Rebuild + fit bounds when data changes
   useEffect(() => {
@@ -225,11 +228,11 @@ export function MapView({ cities, countries, members, weather, visible }: MapVie
     if (!map) return;
     // fitBounds called AFTER buildMapMarkers updates layersRef, so any
     // synchronous zoomend from fitBounds sees the correct layer list.
-    const bounds = buildMapMarkers(map, layersRef, cities, countries, members, weather);
+    const bounds = buildMapMarkers(map, layersRef, cities, countries, members, weather, animationsEnabled);
     if (bounds) {
       map.fitBounds(bounds, { padding: [60, 60], maxZoom: 8 });
     }
-  }, [cities, countries, members, weather]);
+  }, [cities, countries, members, weather, animationsEnabled]);
 
   return (
     <div

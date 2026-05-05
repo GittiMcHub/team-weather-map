@@ -26,6 +26,7 @@ export interface ColConfig {
   md: number;
   lg: number;
   cityPosition: 'top' | 'bottom';
+  weatherAnimations: boolean;
 }
 
 export interface WeatherData {
